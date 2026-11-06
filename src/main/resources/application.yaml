@@ -1,3 +1,5 @@
 spring:
   application:
     name: campus-cafe
+server:
+  port: 8081
