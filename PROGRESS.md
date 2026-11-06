@@ -27,19 +27,19 @@ Levels: ⬜ 0 not started · 🟥 1 heard of it · 🟧 2 can explain · 🟨 3 
 | Skill | Level |
 |---|---|
 | Value Objects | 🟨 3 |
-| Entities | 🟨 3 |
+| Entities | 🟩 4 |
 | Invariants & rich domain model | 🟧 2 |
 | Aggregates & aggregate roots | 🟧 2 |
-| Repositories | ⬜ 0 |
+| Repositories | 🟨 3 |
 | Domain services | ⬜ 0 |
-| Application services (use cases) | ⬜ 0 |
-| Factories (`create` / `reconstitute`) | ⬜ 0 |
+| Application services (use cases) | 🟨 3 |
+| Factories (`create` / `reconstitute`) | 🟧 2 |
 
 ### Phase 3 — Architecture like RCMS
 | Skill | Level |
 |---|---|
 | Dependency inversion | ⬜ 0 |
-| Hexagonal: ports & adapters | ⬜ 0 |
+| Hexagonal: ports & adapters | 🟧 2 |
 | Domain model vs JPA entity + mapper | ⬜ 0 |
 | Testing the domain (JUnit, Mockito) | ⬜ 0 |
 
@@ -75,6 +75,7 @@ Levels: ⬜ 0 not started · 🟥 1 heard of it · 🟧 2 can explain · 🟨 3 
 | 2 | 2026-11-06 | Project setup (Spring Boot skeleton) | ✅ Done by you: build + test passing, pushed |
 | 3 | 2026-11-06 | Value Object: `Money` | ✅ record + "never negative" invariant guard. Tests skipped for now |
 | 4 | 2026-11-06 | Entity + Aggregate: `Order`, `OrderId`, `OrderStatus`, `OrderLine` | ✅ Rules inside Order (pay, addItem). Fixed missing NEW status bug |
+| 5 | 2026-11-06 | Port, in-memory adapter, CreateOrder + PayOrder services, controller, Swagger | ✅ Full flow works end to end. Pay twice → rule blocks it (500 → fix next). Learned interface vs abstract class, static, return types |
 
 ## Weak spots to revisit
 - Core / supporting / generic: exercise not done yet (pickup slots, staff login, stock)

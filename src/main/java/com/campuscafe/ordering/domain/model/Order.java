@@ -2,6 +2,7 @@ package com.campuscafe.ordering.domain.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Order {
     private final OrderId id;
@@ -9,9 +10,13 @@ public class Order {
     private final List<OrderLine> lines = new ArrayList<>();
 
 
-    public Order(OrderId id){
+    private Order(OrderId id){
         this.id = id;
         this.status = OrderStatus.NEW;
+    }
+
+    public static Order create(){
+        return new Order(new OrderId(UUID.randomUUID()));
     }
 
     public void pay(){
@@ -28,6 +33,12 @@ public class Order {
         lines.add(new OrderLine(itemName, quantity, price));
     }
 
+    public OrderId id(){
+        return id;
+    }
 
+    public OrderStatus status(){
+        return  status;
+    }
 
 }
