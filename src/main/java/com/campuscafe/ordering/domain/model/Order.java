@@ -1,5 +1,7 @@
 package com.campuscafe.ordering.domain.model;
 
+import com.campuscafe.ordering.domain.exception.OrderRuleException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,17 +22,24 @@ public class Order {
     }
 
     public void pay(){
-        if (status != OrderStatus.NEW){
-            throw new IllegalStateException("Only a NEW order can be paid");
+        requireNew();
+        if (lines.isEmpty()){
+            throw new OrderRuleException("there is no product to buy");
         }
+
+
         status = OrderStatus.PAID;
     }
 
     public void addItem(String itemName, int quantity, Money price){
-        if (status != OrderStatus.NEW){
-            throw new IllegalStateException("Can't change a paid order");
-        }
+        requireNew();
         lines.add(new OrderLine(itemName, quantity, price));
+    }
+
+    private void requireNew(){
+        if (status != OrderStatus.NEW){
+            throw new OrderRuleException("Order is already" + status);
+        }
     }
 
     public OrderId id(){
