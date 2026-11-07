@@ -1,5 +1,13 @@
 spring:
   application:
     name: campus-cafe
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cafe
+    username: postgres
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
 server:
   port: 8081

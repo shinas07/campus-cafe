@@ -10,7 +10,18 @@ public class Order {
     private final OrderId id;
     private OrderStatus status;
     private final List<OrderLine> lines = new ArrayList<>();
+    private static final int MAX_SPECIAL = 3;
 
+    public List<OrderLine> lines(){
+        return List.copyOf(lines);
+    }
+
+    public static Order reconstitute(OrderId id, OrderStatus status, List<OrderLine> lines){
+        Order order = new Order(id);
+        order.status = status;
+        order.lines.addAll(lines);
+        return order;
+    }
 
     private Order(OrderId id){
         this.id = id;
@@ -33,6 +44,15 @@ public class Order {
 
     public void addItem(String itemName, int quantity, Money price){
         requireNew();
+        if (itemName.equals("Daily Special")){
+            int alreadyOrdered = lines.stream()
+                    .filter(line -> line.itemName().equals("Daily Special"))
+                    .mapToInt(OrderLine::quantity)
+                    .sum();
+            if (alreadyOrdered + quantity > MAX_SPECIAL){
+                throw new OrderRuleException("Max " + MAX_SPECIAL + " Daily Special per order");
+            }
+        }
         lines.add(new OrderLine(itemName, quantity, price));
     }
 

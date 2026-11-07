@@ -5,6 +5,7 @@ import com.campuscafe.ordering.domain.model.Money;
 import com.campuscafe.ordering.domain.model.Order;
 import com.campuscafe.ordering.domain.model.OrderId;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -16,6 +17,7 @@ public class CreateOrderService {
         this.orders = orders;
     }
 
+    @Transactional
     public OrderId create(String itemName, int quantity, BigDecimal price){
         Order order = Order.create();
         order.addItem(itemName, quantity, new Money(price));
