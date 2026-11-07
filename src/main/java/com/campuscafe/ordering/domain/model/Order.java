@@ -35,7 +35,7 @@ public class Order {
     public void pay(){
         requireNew();
         if (lines.isEmpty()){
-            throw new OrderRuleException("there is no product to buy");
+            throw new OrderRuleException("Can't pay for an empty order");
         }
 
 
@@ -58,7 +58,7 @@ public class Order {
 
     private void requireNew(){
         if (status != OrderStatus.NEW){
-            throw new OrderRuleException("Order is already" + status);
+            throw new OrderRuleException("Order is already " + status);
         }
     }
 
