@@ -1,7 +1,7 @@
 package com.campuscafe.ordering.adapter.in.rest;
 
-import com.campuscafe.ordering.application.usecase.CreateOrderService;
-import com.campuscafe.ordering.application.usecase.PayOrderService;
+import com.campuscafe.ordering.application.port.in.CreateOrderUseCase;
+import com.campuscafe.ordering.application.port.in.PayOrderUseCase;
 import com.campuscafe.ordering.domain.model.OrderId;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +12,10 @@ import java.util.UUID;
 @RequestMapping("/api/orders")
 public class OrderController {
 
-    private final CreateOrderService createOrder;
-    private final PayOrderService payOrder;
+    private final CreateOrderUseCase createOrder;
+    private final PayOrderUseCase payOrder;
 
-    public OrderController(CreateOrderService createOrder, PayOrderService payOrder){
+    public OrderController(CreateOrderUseCase createOrder, PayOrderUseCase payOrder){
         this.createOrder = createOrder;
         this.payOrder = payOrder;
     }
