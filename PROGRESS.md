@@ -13,7 +13,7 @@ Levels: ⬜ 0 not started · 🟥 1 heard of it · 🟧 2 can explain · 🟨 3 
 | Interfaces | 🟥 1 | Mixed up with "DB layer" — it's a contract (wall socket) |
 | SOLID: S, O | 🟧 2 | |
 | SOLID: L | 🟥 1 | "Child must work wherever the parent is expected" |
-| SOLID: I, D | ⬜ 0 | D comes in Phase 3 (ports & adapters) |
+| SOLID: I, D | 🟨 3 | D: controller → UseCase interface, service → Port interface |
 | JPA `@Entity` / `JpaRepository` | 🟥 1 | `@Entity` goes on the class; repo gives save/find/delete |
 
 ### Phase 1 — Thinking in the domain
@@ -33,14 +33,14 @@ Levels: ⬜ 0 not started · 🟥 1 heard of it · 🟧 2 can explain · 🟨 3 
 | Repositories | 🟨 3 |
 | Domain services | ⬜ 0 |
 | Application services (use cases) | 🟨 3 |
-| Factories (`create` / `reconstitute`) | 🟧 2 |
+| Factories (`create` / `reconstitute`) | 🟨 3 |
 
 ### Phase 3 — Architecture like RCMS
 | Skill | Level |
 |---|---|
-| Dependency inversion | ⬜ 0 |
-| Hexagonal: ports & adapters | 🟧 2 |
-| Domain model vs JPA entity + mapper | ⬜ 0 |
+| Dependency inversion | 🟨 3 |
+| Hexagonal: ports & adapters | 🟩 4 |
+| Domain model vs JPA entity + mapper | 🟧 2 |
 | Testing the domain (JUnit, Mockito) | ⬜ 0 |
 
 ### Phase 4 — Big picture (strategic)
@@ -54,7 +54,7 @@ Levels: ⬜ 0 not started · 🟥 1 heard of it · 🟧 2 can explain · 🟨 3 
 ### Phase 5 — Events
 | Skill | Level |
 |---|---|
-| Domain events | ⬜ 0 |
+| Domain events | 🟨 3 |
 | Eventual consistency | ⬜ 0 |
 | Transactional outbox | ⬜ 0 |
 | Idempotency | ⬜ 0 |
@@ -76,6 +76,8 @@ Levels: ⬜ 0 not started · 🟥 1 heard of it · 🟧 2 can explain · 🟨 3 
 | 3 | 2026-11-06 | Value Object: `Money` | ✅ record + "never negative" invariant guard. Tests skipped for now |
 | 4 | 2026-11-06 | Entity + Aggregate: `Order`, `OrderId`, `OrderStatus`, `OrderLine` | ✅ Rules inside Order (pay, addItem). Fixed missing NEW status bug |
 | 5 | 2026-11-06 | Port, in-memory adapter, CreateOrder + PayOrder services, controller, Swagger | ✅ Full flow works end to end. Pay twice → rule blocks it (500 → fix next). Learned interface vs abstract class, static, return types |
+| 6 | 2026-11-06 | Global error handler (`@RestControllerAdvice`) | ✅ Pay twice now returns 409 instead of 500 |
+| 7 | 2026-11-07 | Empty-order + Daily Special rules, domain exceptions, PostgreSQL (Flyway, JPA entities, mapper, adapter swap) | ✅ Saw that only the adapter changes when the DB changes. Learned JPA vs Hibernate vs Flyway. Claude wrote JPA entities/mapper/adapter on request; error handler now 409/404/400 |
 
 ## Weak spots to revisit
 - Core / supporting / generic: exercise not done yet (pickup slots, staff login, stock)
@@ -90,3 +92,8 @@ Levels: ⬜ 0 not started · 🟥 1 heard of it · 🟧 2 can explain · 🟨 3 
 - [ ] Phase 4 checkpoint: split into Modulith modules
 - [ ] Phase 5 checkpoint: order paid → kitchen notified via events
 - [ ] Phase 6 checkpoint: design review of the whole system
+
+## ▶️ Next session starts here
+1. ✅ Done 2026-11-09: `CreateOrderUseCase` + `PayOrderUseCase` (wrote PayOrderUseCase and the controller change alone 👏)
+2. ✅ Done 2026-11-09: `OrderPaidEvent`, `AggregateRoot` (register/pull events), publish in PayOrderService, kitchen `@EventListener`
+3. Second module: `kitchen` (bounded contexts, Spring Modulith)

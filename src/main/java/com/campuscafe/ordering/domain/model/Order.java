@@ -1,12 +1,14 @@
 package com.campuscafe.ordering.domain.model;
 
+import com.campuscafe.ordering.domain.event.OrderPaidEvent;
 import com.campuscafe.ordering.domain.exception.OrderRuleException;
+import com.campuscafe.shared.domain.AggregateRoot;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Order {
+public class Order extends AggregateRoot {
     private final OrderId id;
     private OrderStatus status;
     private final List<OrderLine> lines = new ArrayList<>();
@@ -37,9 +39,8 @@ public class Order {
         if (lines.isEmpty()){
             throw new OrderRuleException("Can't pay for an empty order");
         }
-
-
         status = OrderStatus.PAID;
+        registerEvent(new OrderPaidEvent(id));
     }
 
     public void addItem(String itemName, int quantity, Money price){
